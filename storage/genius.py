@@ -10,8 +10,9 @@ from storage.object_store import MessageStore
 @attr.s(slots=True)
 class Genius(DictSerializationMixin):
     queue: List[int] = attr.ib(factory=list, converter=to_snowflake_list)
-    occupied: Dict[str, int] = attr.ib(factory=dict)
-    queue_message: MessageStore = attr.ib(factory=dict, converter=MessageStore.from_dict)
+    occupied: Dict[str, List[int]] = attr.ib(factory=dict)
+    queue_message: MessageStore = attr.ib(
+        factory=dict, converter=MessageStore.from_dict)
 
     async def load_discord_objects(self, bot):
         await self.queue_message.load(bot)
@@ -35,8 +36,9 @@ class Genius(DictSerializationMixin):
     def queue_empty(self):
         return len(self.queue) <= 0
 
-    def new_ticket(self, user, category):
-        self.occupied[str(to_snowflake(user))] = to_snowflake(category)
+    def new_ticket(self, user, category, voice):
+        self.occupied[str(to_snowflake(user))] = [
+            to_snowflake(category), to_snowflake(voice)]
 
     def close_ticket(self, user) -> int:
         return self.occupied.pop(str(to_snowflake(user)))

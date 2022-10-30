@@ -20,6 +20,7 @@ from storage.genius import Genius
 from utils.config import GUILD, PARTICIPANT_ROLE, MAX_TICKETS, ADMIN_ROLE, GENIUS_ROLE
 from utils.embeds import GENIUS_BAR
 from utils.perms import NOT_EVERYBODY, ADMIN_ONLY, BOT_DEV_ONLY
+from itertools import chain
 
 
 class GeniusBar(Scale):
@@ -92,7 +93,7 @@ class GeniusBar(Scale):
     )
     async def add(self, ctx, user):
         catId = ctx.channel.parent_id
-        if catId not in self.genius.occupied.values():
+        if catId not in list(chain.from_iterable(self.genius.occupied.values())):
             await ctx.send("You can only use this command in ticket channels!", ephemeral=True)
             return
 
@@ -186,14 +187,13 @@ class GeniusBar(Scale):
     async def close_ticket(self, ctx: InteractionContext):
         author_id = str(ctx.author.id)
 
-        if ctx.author.has_role(ADMIN_ROLE):
-            await self.deletechannel(ctx.channel.id, ctx.channel.parent_id)
+        """ if ctx.author.has_role(ADMIN_ROLE): """
 
-            for key, value in self.genius.occupied.items():
-                if value == ctx.channel.parent_id:
-
-                    del self.genius.occupied[key]
-                    break
+        for key, value in self.genius.occupied.items():
+            if ctx.channel.parent_id in value:
+                await self.deletechannel(ctx.channel.id, ctx.channel.parent_id, value[1])
+                del self.genius.occupied[key]
+                break
 
             """ for key, value in self.genius.occupied.items():
                 if value == ctx.channel.parent_id:
@@ -202,16 +202,16 @@ class GeniusBar(Scale):
                     del self.genius.occupied[key]
                     break
  """
-        elif author_id not in self.genius.occupied:
+        """ elif author_id not in self.genius.occupied:
             await ctx.send("You did not create this ticket!", ephemeral=True)
             return
         else:
-            cat = self.genius.occupied[author_id]
+             cat = self.genius.occupied[author_id]
             await self.delete_channels(cat)
 
             if cat != ctx.channel.parent_id:  # shouldnt happen
                 return
-            self.genius.close_ticket(author_id)
+            self.genius.close_ticket(author_id) """
 
         if len(self.genius.queue) > 0:  # no-one in queue
             userId = self.genius.dequeue()
@@ -220,13 +220,14 @@ class GeniusBar(Scale):
         self.bot.storage.save()
         await self.update_queue()
 
-    async def deletechannel(self, channelid, catid):
+    async def deletechannel(self, channelid, catid, voiceid):
         guild = await self.bot.get_guild(GUILD)
 
         category = await guild.get_channel(catid)
 
         await guild.delete_channel(channelid)
         await guild.delete_channel(catid)
+        await guild.delete_channel(voiceid)
 
     async def delete_channels(self, catId):
 
@@ -263,7 +264,7 @@ class GeniusBar(Scale):
             ))
 
         tc = await guild.create_text_channel(f"ticket-{userName}", category=cat.id)
-        # await guild.create_voice_channel(f"ticket-{userName}", category=cat.id)
+        vc = await guild.create_voice_channel(f"ticket-{userName}", category=cat.id)
 
         button3 = Button(
             style=ButtonStyles.RED,
@@ -278,7 +279,7 @@ class GeniusBar(Scale):
         )
         await msg.pin()
 
-        self.genius.new_ticket(userId, cat.id)
+        self.genius.new_ticket(userId, cat.id, vc.id)
 
 
 def setup(bot):
