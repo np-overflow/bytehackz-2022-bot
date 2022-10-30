@@ -8,12 +8,14 @@ from dis_snek.mixins.serialization import DictSerializationMixin
 
 from storage.genius import Genius
 from storage.nerf import Nerf
+from storage.console import Console
 
 
 @attr.s(slots=True)
 class Container(DictSerializationMixin):
     nerf: Nerf = attr.ib(factory=dict, converter=Nerf.from_dict)
     genius: Genius = attr.ib(factory=dict, converter=Genius.from_dict)
+    console: Console = attr.ib(factory=dict, converter=Console.from_dict)
 
 
 class JsonStorage:
@@ -42,7 +44,8 @@ class JsonStorage:
         backup_path = self.backup_folder.joinpath(backup_filename)
         self._save_file(backup_path)
 
-        backup_files = sorted(os.listdir(self.backup_folder), key=lambda file: os.path.getctime(self.backup_folder.joinpath(file).absolute()))
+        backup_files = sorted(os.listdir(self.backup_folder), key=lambda file: os.path.getctime(
+            self.backup_folder.joinpath(file).absolute()))
         if len(backup_files) > self.max_backups:
             os.remove(self.backup_folder.joinpath(backup_files[0]).absolute())
 
@@ -50,5 +53,6 @@ class JsonStorage:
 
     def _save_file(self, path):
         with open(path, "wb") as file:
-            data = orjson.dumps(self.container.to_dict(), option=orjson.OPT_NON_STR_KEYS)
+            data = orjson.dumps(self.container.to_dict(),
+                                option=orjson.OPT_NON_STR_KEYS)
             file.write(data)
