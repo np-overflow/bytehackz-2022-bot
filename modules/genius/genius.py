@@ -21,6 +21,7 @@ from utils.config import GUILD, PARTICIPANT_ROLE, MAX_TICKETS, ADMIN_ROLE, GENIU
 from utils.embeds import GENIUS_BAR
 from utils.perms import NOT_EVERYBODY, ADMIN_ONLY, BOT_DEV_ONLY
 from itertools import chain
+from dis_snek.models import to_snowflake
 
 
 class GeniusBar(Scale):
@@ -242,14 +243,18 @@ class GeniusBar(Scale):
 
     async def create_ticket(self, userId):
         userName = (await self.bot.get_user(userId)).display_name
+
         guild = await self.bot.get_guild(GUILD)
+
+        everyone_role_id = guild.default_role.id
+
         cat = await guild.create_category(
             f"ticket-{userName}",
             position=999)
 
         await cat.edit_permission(
             PermissionOverwrite(
-                id=PARTICIPANT_ROLE,
+                id=everyone_role_id,
                 type=0,
                 deny="1024",
                 allow="0"
