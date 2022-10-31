@@ -9,6 +9,7 @@ from dis_snek.mixins.serialization import DictSerializationMixin
 from storage.genius import Genius
 from storage.nerf import Nerf
 from storage.console import Console
+from storage.csgo import Csgo
 
 
 @attr.s(slots=True)
@@ -16,6 +17,7 @@ class Container(DictSerializationMixin):
     nerf: Nerf = attr.ib(factory=dict, converter=Nerf.from_dict)
     genius: Genius = attr.ib(factory=dict, converter=Genius.from_dict)
     console: Console = attr.ib(factory=dict, converter=Console.from_dict)
+    csgo: Csgo = attr.ib(factory=dict, converter=Csgo.from_dict)
 
 
 class JsonStorage:

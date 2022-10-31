@@ -49,3 +49,8 @@ GENIUS_BAR = Embed(
 CONSOLE = Embed(
     "welcome to console games"
 )
+
+
+CSGO = Embed(
+    "welcome to CSGO"
+)
