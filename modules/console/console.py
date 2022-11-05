@@ -32,7 +32,7 @@ class Console(Scale):
         await self.console.load_discord_objects(self.bot)
         if self.console.is_setup_done():
             await self._update_queue()
-            await self._update_leaderboard()  # Not needed
+            # await self._update_leaderboard()  # Not needed
 
     @slash_command(
         name="console_setup",
@@ -44,17 +44,11 @@ class Console(Scale):
         OptionTypes.CHANNEL,
         required=True,
     )
-    @slash_option(
-        "boardchannel",
-        "ChannelID of channel to set up leaderboard",
-        OptionTypes.CHANNEL,
-        required=True,
-    )
     @slash_permission(NOT_EVERYBODY, BOT_DEV_ONLY)
-    async def console_setup(self, ctx: InteractionContext, queuechannel, boardchannel):
+    async def console_setup(self, ctx: InteractionContext, queuechannel):
         await ctx.defer()
 
-        if type(queuechannel) != GuildText or type(boardchannel) != GuildText:
+        if type(queuechannel) != GuildText:
             await ctx.send(embeds=Embed("Whoops", f"Channels must be text channels", color="#F9AC42"))
             return
 
@@ -63,11 +57,11 @@ class Console(Scale):
             return
 
         await self._setup_queue_channel(queuechannel)
-        await self._setup_leaderboard_channel(boardchannel)
+        # await self._setup_leaderboard_channel(boardchannel)
         self.bot.storage.save()
 
         await self._update_queue()
-        await self._update_leaderboard()
+        # await self._update_leaderboard()
 
         await ctx.send("Queue setup completed!")
 
@@ -96,11 +90,11 @@ class Console(Scale):
             ],
         )
 
-    async def _setup_leaderboard_channel(self, boardchannel):
+    """     async def _setup_leaderboard_channel(self, boardchannel):
         await boardchannel.purge()
         leaderboard_msg = await boardchannel.send("Leaderboard here!")
         self.console.score.clear()
-        self.console.set_leaderboard_message(leaderboard_msg)
+        self.console.set_leaderboard_message(leaderboard_msg)"""
 
     @slash_command(
         name="console_next",
@@ -158,7 +152,7 @@ class Console(Scale):
     async def _update_queue(self):
         text = "\n\n```\nNow playing:"
         if self.now_playing_user:
-            text += f"{self.now_playing_user.display_name}'s + Team\n\n"
+            text += f"{self.now_playing_user.display_name}\n\n"
         else:
             text += f"Nobody :(\n\n"
 
@@ -173,8 +167,8 @@ class Console(Scale):
 
         await self.console.queue_msg.edit(text)
 
-    @slash_command(
-        name="console_score",
+    """  @slash_command(
+         name="console_score",
         description="Score a player"
     )
     @slash_option(
@@ -248,6 +242,7 @@ class Console(Scale):
         embed.add_field("Runner ups", runner_ups)
 
         await self.console.leaderboard_msg.edit(content="", embeds=embed)
+ """
 
 
 def setup(bot):

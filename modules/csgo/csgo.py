@@ -178,7 +178,7 @@ class Csgo(Scale):
             await self._update_queue()
             await ctx.send("Queue up successful! Wait for our ping!", ephemeral=True)
 
-    @ component_callback("getOutQueueCsgo")
+    @component_callback("getOutQueueCsgo")
     async def get_out_queue(self, ctx):
         if not self.csgo.queue_msg:
             await ctx.send("Error: Queue channel not setup yet.", ephemeral=True)
