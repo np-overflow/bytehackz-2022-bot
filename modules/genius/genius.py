@@ -160,8 +160,9 @@ class GeniusBar(Scale):
             return
 
         if len(self.genius.occupied) < MAX_TICKETS:
-            await self.create_ticket(author_id)
+            yes = await self.create_ticket(author_id)
             await ctx.send("Ticket created!", ephemeral=True)
+            return
         else:
             self.genius.enqueue(ctx.author)
             await ctx.send("We're at capacity so we've queued you up! You'll get a ping when we're free! ;)", ephemeral=True)
@@ -188,31 +189,11 @@ class GeniusBar(Scale):
     async def close_ticket(self, ctx: InteractionContext):
         author_id = str(ctx.author.id)
 
-        """ if ctx.author.has_role(ADMIN_ROLE): """
-
         for key, value in self.genius.occupied.items():
             if ctx.channel.parent_id in value:
                 await self.deletechannel(ctx.channel.id, ctx.channel.parent_id, value[1])
                 del self.genius.occupied[key]
                 break
-
-            """ for key, value in self.genius.occupied.items():
-                if value == ctx.channel.parent_id:
-
-                    await self.delete_channels(value)
-                    del self.genius.occupied[key]
-                    break
- """
-        """ elif author_id not in self.genius.occupied:
-            await ctx.send("You did not create this ticket!", ephemeral=True)
-            return
-        else:
-             cat = self.genius.occupied[author_id]
-            await self.delete_channels(cat)
-
-            if cat != ctx.channel.parent_id:  # shouldnt happen
-                return
-            self.genius.close_ticket(author_id) """
 
         if len(self.genius.queue) > 0:  # no-one in queue
             userId = self.genius.dequeue()
@@ -279,12 +260,13 @@ class GeniusBar(Scale):
 
         msg = await tc.send(
             # This text was definitely not stolen ;)
-            f"<@&900761364426027059> bar\nHey <@{userId}>! Welcome to your support channel! Please explain your issue here and someone will help you shortly. Alternatively, join your assigned vc. \nTo add your teammates to this ticket, type /add <name>. Remember to close the ticket after you're done!",
+            f"Hey <@{userId}>! Welcome to your support channel! Please explain your issue here and someone will help you shortly. Alternatively, join your assigned vc. \nTo add your teammates to this ticket, type /add <name>. Remember to close the ticket after you're done!",
             components=[button3]
         )
         await msg.pin()
 
         self.genius.new_ticket(userId, cat.id, vc.id)
+        return
 
 
 def setup(bot):

@@ -48,18 +48,6 @@ class Welcome(Scale):
 
     @component_callback("claimRole")
     async def claimRole(self, ctx):
-        """ if not self.nerf.queue_msg:
-            await ctx.send("Error: Queue channel not setup yet.", ephemeral=True)
-            return
-
-        author_id = ctx.author.id
-        if author_id in self.nerf.queue:
-            await ctx.send("You're already in the queue mate", ephemeral=True)
-        else:
-            self.nerf.enqueue(author_id)
-            self.bot.storage.save()
-            await self._update_queue() """
-        """ role = discord.utils.get(member.guild.roles, name="OG") """
 
         guild = await self.bot.get_guild(GUILD)
         role = get(guild.roles, name="participant")

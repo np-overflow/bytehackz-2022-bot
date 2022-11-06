@@ -91,12 +91,6 @@ class Csgo(Scale):
             ],
         )
 
-    """ async def _setup_leaderboard_channel(self, boardchannel):
-        await boardchannel.purge()
-        leaderboard_msg = await boardchannel.send("Leaderboard here!")
-        self.csgo.score.clear()
-        self.csgo.set_leaderboard_message(leaderboard_msg) """
-
     @slash_command(
         name="csgo_next",
         description="Call up the next team in the queue"
@@ -149,20 +143,6 @@ class Csgo(Scale):
                 await self._update_queue()
                 return
 
-        """ self.now_playing_user = await self.bot.get_user(self.csgo.dequeue())
-        self.bot.storage.save()
-
-        
-        
-
-        self.next_playing_user = await self.bot.get_user(self.csgo.get_queue()[0])
-
-        await self._update_queue()
-
-        await ctx.send(f"It is now {self.now_playing_user}'s and {self.next_playing_user}'s turn.")
-        await self.now_playing_user.send(f"Hey {self.now_playing_user.display_name}! "
-                                         f"You're up for the Csgo game, be here in 5 mins or we'll move on!") """
-
     @ component_callback("getInQueueCsgo")
     async def get_in_queue(self, ctx):
         if not self.csgo.queue_msg:
@@ -213,82 +193,6 @@ class Csgo(Scale):
         text += "```\n\n"
 
         await self.csgo.queue_msg.edit(text)
-
-    """ @slash_command(
-        name="csgo_score",
-        description="Score a player"
-    )
-    @slash_option(
-        "score",
-        "The score you're giving this player (1-10000)",
-        OptionTypes.INTEGER,
-        required=True
-    )
-    @slash_option(
-        "player",
-        "Player you're scoring, defaults to now playing user",
-        OptionTypes.USER,
-        required=False
-    )
-    @slash_permission(NOT_EVERYBODY, ADMIN_ONLY)
-    async def csgo_score(self, ctx: InteractionContext, score, player=None):
-        await ctx.defer()
-
-        if score < 0 or score > 5000:  # TODO Based it off the scoring system
-            await ctx.send(embeds=Embed("Whoops", f"Score must be between 1 & 5000", color="#F9AC42"))
-            return
-
-        if not player:
-            player = self.now_playing_user
-
-        self.csgo.set_score(player, score)
-        self.bot.storage.save()
-
-        await ctx.send(f"{player.display_name} scores {score} for the Csgo game!")
-        # await self._update_leaderboard()
-
-        if self.now_playing_user and player == self.now_playing_user:
-            await self.now_playing_user.send(f"Thank you for playing, you scored {score}! Add yourself to queue to "
-                                             f"play again!")
-            self.now_playing_user = None """
-
-    """ async def _update_leaderboard(self):
-        aggregated_scores = sorted(
-            self.csgo.score.items(), key=lambda item: item[1], reverse=True)
-
-        embed = Embed(
-            "Csgo **Leaderboard**",
-            "Ranked by score:\n\n",
-            color="#F9AC42",
-            image="https://cdn.discordapp.com/attachments/900759773178396785/903654583845417040/bytehackz2021.003.png",
-        )
-
-        if len(aggregated_scores) >= 1:
-            embed.add_field(
-                "1st place 🥇", f"<@{aggregated_scores[0][0]}> : {aggregated_scores[0][1]}", inline=True)
-        else:
-            embed.add_field("1st place 🥇", "N.A.", inline=True)
-
-        if len(aggregated_scores) >= 2:
-            embed.add_field(
-                "2nd place 🥈", f"<@{aggregated_scores[1][0]}> : {aggregated_scores[1][1]}", inline=True)
-        else:
-            embed.add_field("2nd place 🥈", "N.A.", inline=True)
-
-        if len(aggregated_scores) >= 3:
-            embed.add_field(
-                "3rd place 🥉", f"<@{aggregated_scores[2][0]}> : {aggregated_scores[2][1]}", inline=True)
-        else:
-            embed.add_field("3rd place 🥉", "N.A.", inline=True)
-
-        runner_ups = ""
-        for i in range(3, min(20, len(aggregated_scores))):
-            runner_ups += f"{i+1} -> <@{aggregated_scores[i][0]}> : {aggregated_scores[i][1]}\n"
-        if not runner_ups:
-            runner_ups = "N.A."
-        embed.add_field("Runner ups", runner_ups)
-
-        await self.csgo.leaderboard_msg.edit(content="", embeds=embed) """
 
 
 def setup(bot):

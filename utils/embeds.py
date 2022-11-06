@@ -43,7 +43,7 @@ GENIUS_BAR = Embed(
             To book a session, just click the button below! 👇",
     color="#F9AC42",
     footer="🧠",
-    image="https://cdn.discordapp.com/attachments/900759773178396785/903654583845417040/bytehackz2021.003.png",
+    image="https://user-images.githubusercontent.com/53942938/200157862-45c1095d-0ea7-48c9-9566-5f5f11318e99.png",
 )
 
 CONSOLE = Embed(

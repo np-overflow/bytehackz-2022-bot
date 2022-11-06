@@ -90,12 +90,6 @@ class Console(Scale):
             ],
         )
 
-    """     async def _setup_leaderboard_channel(self, boardchannel):
-        await boardchannel.purge()
-        leaderboard_msg = await boardchannel.send("Leaderboard here!")
-        self.console.score.clear()
-        self.console.set_leaderboard_message(leaderboard_msg)"""
-
     @slash_command(
         name="console_next",
         description="Call up the next individual in the queue"
@@ -166,83 +160,6 @@ class Console(Scale):
         text += "```\n\n"
 
         await self.console.queue_msg.edit(text)
-
-    """  @slash_command(
-         name="console_score",
-        description="Score a player"
-    )
-    @slash_option(
-        "score",
-        "The score you're giving this player (1-10000)",
-        OptionTypes.INTEGER,
-        required=True
-    )
-    @slash_option(
-        "player",
-        "Player you're scoring, defaults to now playing user",
-        OptionTypes.USER,
-        required=False
-    )
-    @slash_permission(NOT_EVERYBODY, ADMIN_ONLY)
-    async def console_score(self, ctx: InteractionContext, score, player=None):
-        await ctx.defer()
-
-        if score < 0 or score > 5000:  # TODO Based it off the scoring system
-            await ctx.send(embeds=Embed("Whoops", f"Score must be between 1 & 5000", color="#F9AC42"))
-            return
-
-        if not player:
-            player = self.now_playing_user
-
-        self.console.set_score(player, score)
-        self.bot.storage.save()
-
-        await ctx.send(f"{player.display_name} scores {score} for the console game!")
-        await self._update_leaderboard()
-
-        if self.now_playing_user and player == self.now_playing_user:
-            await self.now_playing_user.send(f"Thank you for playing, you scored {score}! Add yourself to queue to "
-                                             f"play again!")
-            self.now_playing_user = None
-
-    async def _update_leaderboard(self):
-        aggregated_scores = sorted(
-            self.console.score.items(), key=lambda item: item[1], reverse=True)
-
-        embed = Embed(
-            "Console **Leaderboard**",
-            "Ranked by score:\n\n",
-            color="#F9AC42",
-            image="https://cdn.discordapp.com/attachments/900759773178396785/903654583845417040/bytehackz2021.003.png",
-        )
-
-        if len(aggregated_scores) >= 1:
-            embed.add_field(
-                "1st place 🥇", f"<@{aggregated_scores[0][0]}> : {aggregated_scores[0][1]}", inline=True)
-        else:
-            embed.add_field("1st place 🥇", "N.A.", inline=True)
-
-        if len(aggregated_scores) >= 2:
-            embed.add_field(
-                "2nd place 🥈", f"<@{aggregated_scores[1][0]}> : {aggregated_scores[1][1]}", inline=True)
-        else:
-            embed.add_field("2nd place 🥈", "N.A.", inline=True)
-
-        if len(aggregated_scores) >= 3:
-            embed.add_field(
-                "3rd place 🥉", f"<@{aggregated_scores[2][0]}> : {aggregated_scores[2][1]}", inline=True)
-        else:
-            embed.add_field("3rd place 🥉", "N.A.", inline=True)
-
-        runner_ups = ""
-        for i in range(3, min(20, len(aggregated_scores))):
-            runner_ups += f"{i+1} -> <@{aggregated_scores[i][0]}> : {aggregated_scores[i][1]}\n"
-        if not runner_ups:
-            runner_ups = "N.A."
-        embed.add_field("Runner ups", runner_ups)
-
-        await self.console.leaderboard_msg.edit(content="", embeds=embed)
- """
 
 
 def setup(bot):
