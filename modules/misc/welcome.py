@@ -33,7 +33,7 @@ class Welcome(Scale):
 
         await ctx.send(embeds=[embed])
 
-        await ctx.send("https://cdn.discordapp.com/attachments/895590724836401175/904702785965150278/unknown.png")
+        # await ctx.send("https://cdn.discordapp.com/attachments/895590724836401175/904702785965150278/unknown.png")
         await ctx.send(
             "Welcome to Bytehackz 2022, Claim your participant role here!",
             components=[
@@ -50,7 +50,7 @@ class Welcome(Scale):
     async def claimRole(self, ctx):
 
         guild = await self.bot.get_guild(GUILD)
-        role = get(guild.roles, name="participant")
+        role = get(guild.roles, name="Bytehackz Participant")
         if (ctx.author.has_role(role)):
             await ctx.send("Already Claimed Role", ephemeral=True)
         else:

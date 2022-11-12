@@ -106,7 +106,6 @@ class Csgo(Scale):
             return
 
         if (self.now_playing_user1 == None):
-            await ctx.send(f"case1")
             self.now_playing_user1 = await self.bot.get_user(self.csgo.dequeue())
             self.bot.storage.save()
             await self._update_queue()
@@ -114,7 +113,6 @@ class Csgo(Scale):
             await self.now_playing_user1.send(f"Hey {self.now_playing_user1.display_name}! "
                                               f"You're up for the Csgo game, be here in 5 mins or we'll move on!")
         elif (self.now_playing_user2 == None):
-            await ctx.send(f"case2")
             self.now_playing_user2 = await self.bot.get_user(self.csgo.dequeue())
             self.bot.storage.save()
             await self._update_queue()
@@ -123,7 +121,6 @@ class Csgo(Scale):
                                               f"You're up for the Csgo game, be here in 5 mins or we'll move on!")
         else:
             if (not self.csgo.queue_is_empty()):
-                await ctx.send(f"case3")
                 self.now_playing_user1 = self.now_playing_user2
                 self.now_playing_user2 = await self.bot.get_user(self.csgo.dequeue())
                 self.bot.storage.save()
