@@ -6,14 +6,13 @@ NERF_GUN = Embed(
     "Let's face it, programming 🖥, *is hard*. So while you're racking your brains working on prototypes, remember to take breathers!\n\n\
             In fact, if you're up for destressing, come on down to **Nerf R' Us**!\n\n\
             Here, you'll get to wield **modded**, *high calibre* weaponry* in a simple but fun game of can shooting 🎯\n\n\
-            At the end of the day, teams with the highest scores get a special prize! 👀\n\n\n\
-            We're located south of the Green Patch, queue up with the bot and we'll ping ya when you can come! 📍\n\n\
-            Weaponry include:",
+            At the end of the day, teams with the highest scores get a special prize! 👀\n\n\
+            We're located south of the Green Patch, queue up with the bot and we'll ping ya when you can come! 📍",
     color="#F9AC42",
     footer="*no actual weapons lah, just nerf guns\n\nAll blasters provided by Mr Ben, thank you!!",
-    image="https://cdn.discordapp.com/attachments/900759773178396785/903654583845417040/bytehackz2021.003.png",
+    image="https://user-images.githubusercontent.com/53942938/201475486-cf07e0eb-0d51-4ef4-9657-079b62698a8e.png",
 )
-NERF_GUN.add_field(
+""" NERF_GUN.add_field(
     "EH Spectre",
     ".",
     inline=True)
@@ -31,7 +30,7 @@ NERF_GUN.add_field(
 NERF_GUN.add_field(
     "Nexus Pro",
     ".",
-    inline=True)
+    inline=True) """
 
 GENIUS_BAR = Embed(
     "Genius Bar 🧠",
@@ -47,10 +46,26 @@ GENIUS_BAR = Embed(
 )
 
 CONSOLE = Embed(
-    "welcome to console games"
+    "Console Games 🎮",
+    "Youre strssed and you really want a break.\n\n\
+     Dont worry, we got you covered.\n\n\
+     Come Play our state of the art **Nintendo Switch** provided by Dr Joel 🤗\n\n\
+     We have games such as Arms, Overcooked and Mario Kart. Come yourself or with another fellow human\n\n\n\
+    What are you waiting for? Queue now!",
+    color="#F9AC42",
+    footer="",
+    image="https://user-images.githubusercontent.com/53942938/201475560-053db941-b8f3-4240-96ba-376518166549.png",
 )
 
 
 CSGO = Embed(
-    "welcome to CSGO"
+    "CSGO 🔫",
+    "Want to show of your FPS skills?\n\n\
+     Come and play with your team against another 5 vs 5\n\n\
+     **Do note that all players must have the game installed**\n\n\
+     Game will last a maximum of 16 rounds, Winning team gets a prize 🏆\n\n\n\
+    Good Luck",
+    color="#F9AC42",
+    footer="",
+    image="https://user-images.githubusercontent.com/53942938/201475460-82fb21ad-1b2c-448d-b3d8-683e52a237ec.png",
 )

@@ -159,9 +159,9 @@ class Nerfgun(Scale):
         text = "\n\n```\nNow playing:"
         if self.now_playing_user:
             text += f"{self.now_playing_user.display_name}\n\n"
-        else: 
+        else:
             text += f"Nobody :(\n\n"
-        
+
         if self.nerf.queue_is_empty():
             text += "\n\nThe queue is currently empty!"
         else:
@@ -190,7 +190,7 @@ class Nerfgun(Scale):
         required=False
     )
     @slash_permission(NOT_EVERYBODY, ADMIN_ONLY)
-    async def nerf_score(self, ctx: InteractionContext, score, player = None):
+    async def nerf_score(self, ctx: InteractionContext, score, player=None):
         await ctx.defer()
 
         if score < 0 or score > 100:  # TODO Based it off the scoring system
@@ -212,27 +212,31 @@ class Nerfgun(Scale):
             self.now_playing_user = None
 
     async def _update_leaderboard(self):
-        aggregated_scores = sorted(self.nerf.score.items(), key=lambda item: item[1], reverse=True)
+        aggregated_scores = sorted(
+            self.nerf.score.items(), key=lambda item: item[1], reverse=True)
 
         embed = Embed(
             "Nerf R' Us 🔫 **Leaderboard**",
             "Ranked by score:\n\n",
             color="#F9AC42",
-            image="https://cdn.discordapp.com/attachments/900759773178396785/903654583845417040/bytehackz2021.003.png",
+            image="https://user-images.githubusercontent.com/53942938/200157862-45c1095d-0ea7-48c9-9566-5f5f11318e99.png",
         )
 
         if len(aggregated_scores) >= 1:
-            embed.add_field("1st place 🥇", f"<@{aggregated_scores[0][0]}> : {aggregated_scores[0][1]}", inline=True)
+            embed.add_field(
+                "1st place 🥇", f"<@{aggregated_scores[0][0]}> : {aggregated_scores[0][1]}", inline=True)
         else:
             embed.add_field("1st place 🥇", "N.A.", inline=True)
 
         if len(aggregated_scores) >= 2:
-            embed.add_field("2nd place 🥈", f"<@{aggregated_scores[1][0]}> : {aggregated_scores[1][1]}", inline=True)
+            embed.add_field(
+                "2nd place 🥈", f"<@{aggregated_scores[1][0]}> : {aggregated_scores[1][1]}", inline=True)
         else:
             embed.add_field("2nd place 🥈", "N.A.", inline=True)
 
         if len(aggregated_scores) >= 3:
-            embed.add_field("3rd place 🥉", f"<@{aggregated_scores[2][0]}> : {aggregated_scores[2][1]}", inline=True)
+            embed.add_field(
+                "3rd place 🥉", f"<@{aggregated_scores[2][0]}> : {aggregated_scores[2][1]}", inline=True)
         else:
             embed.add_field("3rd place 🥉", "N.A.", inline=True)
 
