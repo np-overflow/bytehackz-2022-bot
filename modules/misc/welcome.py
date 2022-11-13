@@ -25,11 +25,12 @@ class Welcome(Scale):
     @slash_command(name="welcome", description="It's time for Bytehackz 2022!")
     async def welcome(self, ctx: InteractionContext):
         embed = Embed(
-            image="https://user-images.githubusercontent.com/53942938/200157862-45c1095d-0ea7-48c9-9566-5f5f11318e99.png",
+
             "Hello and welcome to Bytehackz 2022!",
             "The Byte®Hackz is an annual hackathon conducted for the Information Technology and Financial Informatics students taking the module Portfolio Development (PFD).\n\n\
             There will be 6 challenge statements, with 5 Groups of 4 to 5 Participants attempting each challenge statement.",
-            color="#F9AC42"
+            color="#F9AC42",
+            image="https://user-images.githubusercontent.com/53942938/200157862-45c1095d-0ea7-48c9-9566-5f5f11318e99.png"
         )
 
         await ctx.send(embeds=[embed])
